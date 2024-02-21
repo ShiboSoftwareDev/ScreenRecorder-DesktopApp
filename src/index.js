@@ -2,6 +2,10 @@ const { ipcMain } = require("electron");
 const { app, BrowserWindow, desktopCapturer, Menu } = require("electron");
 const path = require("path");
 
+async function selectSource(source) {
+  await mainWindow.webContents.send("source-selected", source);
+}
+
 async function handleVideoSelection() {
   const inputSources = await desktopCapturer.getSources({
     types: ["window", "screen"],
@@ -23,10 +27,11 @@ ipcMain.on("videoSelectBtn-clicked", handleVideoSelection);
 if (require("electron-squirrel-startup")) {
   app.quit();
 }
+let mainWindow;
 
 const createWindow = () => {
   // Create the browser window.
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {

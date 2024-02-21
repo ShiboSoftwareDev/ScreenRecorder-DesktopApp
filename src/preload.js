@@ -2,4 +2,6 @@ const { contextBridge, ipcRenderer } = require("electron/renderer");
 
 contextBridge.exposeInMainWorld("electronAPI", {
   videoSelectBtnClicked: () => ipcRenderer.send("videoSelectBtn-clicked"),
+  sourceSelected: (callback) =>
+    ipcRenderer.on("source-selected", (_event, value) => callback(value)),
 });
