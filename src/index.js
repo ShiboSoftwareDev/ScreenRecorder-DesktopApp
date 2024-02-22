@@ -1,4 +1,4 @@
-const { ipcMain } = require("electron");
+const { ipcMain, dialog } = require("electron");
 const { app, BrowserWindow, desktopCapturer, Menu } = require("electron");
 const path = require("path");
 
@@ -22,6 +22,18 @@ async function handleVideoSelection() {
 }
 
 ipcMain.on("videoSelectBtn-clicked", handleVideoSelection);
+
+const { writeFile } = require("fs");
+
+ipcMain.on("send-stream", async (event, preBuffer) => {
+  const buffer = Buffer.from(preBuffer);
+
+  const { filePath } = await dialog.showSaveDialog({
+    buttonLabel: "Save video",
+    defaultPath: `vid-${Date.now()}.webm`,
+  });
+  writeFile(filePath, buffer, () => {});
+});
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require("electron-squirrel-startup")) {
