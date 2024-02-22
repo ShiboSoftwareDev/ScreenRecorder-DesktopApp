@@ -2,7 +2,9 @@ const {
   app,
   BrowserWindow,
   desktopCapturer,
+  Tray,
   Menu,
+  nativeImage,
   ipcMain,
   dialog,
 } = require("electron");
@@ -98,13 +100,5 @@ app.whenReady().then(() => {
   );
   tray = new Tray(icon);
 
-  const contextMenu = Menu.buildFromTemplate([
-    { label: "Item1", type: "radio" },
-    { label: "Item2", type: "radio" },
-    { label: "Item3", type: "radio", checked: true },
-    { label: "Item4", type: "radio" },
-  ]);
-
-  tray.setToolTip("This is my application.");
-  tray.setContextMenu(contextMenu);
+  tray.setToolTip("I'm in control of you pc!");
 });

@@ -8,12 +8,14 @@ startBtn.onclick = (e) => {
   mediaRecorder.start();
   startBtn.classList.add("is-danger");
   startBtn.innerText = "Recording";
+  stopBtn.disabled = false;
 };
 
 stopBtn.onclick = (e) => {
   mediaRecorder.stop();
   startBtn.classList.remove("is-danger");
   startBtn.innerText = "Start";
+  stopBtn.disabled = true;
 };
 
 async function getVideoSources() {
@@ -24,6 +26,7 @@ let mediaRecorder;
 
 async function selectSource(source) {
   videoSelectBtn.innerText = source.name;
+  startBtn.disabled = false;
   const constraints = {
     audio: false,
     video: {
